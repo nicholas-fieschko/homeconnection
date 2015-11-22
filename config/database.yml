@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
+  username: homeconnection
+  password: password
+
+development:
+  <<: *default
+  database: homeconnection_development
+
+test:
+  <<: *default
+  database: homeconnection_test
+
+production:
+  <<: *default
+  database: homeconnection_production
+  username: 
+  password: 
