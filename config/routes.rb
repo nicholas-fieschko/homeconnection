@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
   
   devise_for :users
+  resources :users, only: [:show]
 
   # You can have the root of your site routed with "root"
   root 'pages#home'
