@@ -32,4 +32,10 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+
+  it "is a test test" do
+    expect(1).to eq(1)
+  end
+
+
 end
