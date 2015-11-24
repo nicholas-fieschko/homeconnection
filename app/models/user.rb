@@ -24,7 +24,7 @@
 #  updated_at             :datetime         not null
 #  name                   :text
 #  gender                 :text
-#  age                    :date
+#  birthday               :date
 #  about                  :text
 #  provider               :boolean
 #
