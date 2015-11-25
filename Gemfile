@@ -35,4 +35,5 @@ group :development, :test do
   gem "rack-livereload"
   gem 'guard-rspec', require: false
   gem "factory_girl_rails", "~> 4.0"
+  gem 'faker'
 end
