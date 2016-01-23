@@ -1,5 +1,6 @@
 default: &default
-  adapter: postgresql
+  adapter: postgis
+  schema_search_path: public
   encoding: unicode
   pool: 5
   host: localhost
