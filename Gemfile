@@ -38,6 +38,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'faker'
   gem 'capybara'
+  gem 'launchy'
 
   gem 'better_errors'
   gem 'binding_of_caller'

@@ -1,5 +1,7 @@
 proj steps:
 
+useful spec examples in this repo: https://github.com/gitlabhq/gitlabhq/blob/master/spec/features/users_spec.rb#L8
+
 remember, ITERATIONS. do not OVERplan, just make an iteration with basic, reasonable implementation of feature, you can always change and improve later
 
      > next: PROFILES
