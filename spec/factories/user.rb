@@ -39,6 +39,6 @@ FactoryGirl.define do
     about             { Faker::Lorem.paragraph }
     provider          { [true, false].sample }
 
-    after(:create)    { |user| user.confirm! }
+    after(:create)    { |user| user.confirm }
   end
 end
