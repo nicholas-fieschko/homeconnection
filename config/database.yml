@@ -9,14 +9,14 @@ default: &default
 
 development:
   <<: *default
-  database: postgis_development
+  database: homeconnection_development
 
 test:
   <<: *default
-  database: postgis_test
+  database: homeconnection_test
 
 production:
   <<: *default
-  database: postgis_production
+  database: homeconnection_production
   username: 
   password: 
