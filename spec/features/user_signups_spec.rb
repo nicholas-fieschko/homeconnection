@@ -54,14 +54,46 @@ feature "Sign up" do
     end
 
     context "with valid credentials" do
-
       it "creates a new user" do
         expect { click_button "Sign up" }.to change { User.count }.by 1
       end
-
     end
 
-    
-  end
+    context "with invalid credentials" do
+      it "does not create a new user" do
+        fill_in "Email", with: ""
+        expect { click_button "Sign up" }.not_to change { User.count }
+      end
 
+      context "with a single invalid field" do
+        before do 
+          fill_in "Email", with: ""
+          click_button "Sign up"
+        end
+
+        it "displays an error message" do
+          expect(page).to have_selector ".error"
+        end
+
+        it "reports the exact invalid field" do
+          within(".error") do
+            expect(page).to have_text /email/i
+          end         
+        end
+      end
+
+      context "with multiple invalid fields" do
+        it "reports all invalid fields" do
+          fill_in "Email", with: ""
+          fill_in "Password confirmation", with: ""
+          click_button "Sign up"
+
+          within(".error") do
+            expect(page).to have_text /email/i
+            expect(page).to have_text /password/i
+          end         
+        end
+      end
+    end
+  end
 end
