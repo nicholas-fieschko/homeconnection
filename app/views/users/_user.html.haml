@@ -1,0 +1,8 @@
+= link_to user.name, user_path(user)
+= user.gender
+= if user.provider then "Provider" else "In need" end
+%br/
+= user.id
+= user.email
+= user.birthday
+= user.about
