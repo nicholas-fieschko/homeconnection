@@ -23,7 +23,7 @@ feature "Logging in" do
         fill_in "Password", with: "password123"
         click_button "Log in"
 
-        expect(page).to have_text /logged in/i
+        expect(page).to have_text /signed in/i
       end
     end
 
@@ -35,7 +35,7 @@ feature "Logging in" do
       end
 
       it "does not successfully log in" do
-        expect(page).not_to have_text /logged in/i
+        expect(page).not_to have_text /signed in/i
       end
 
       it "displays the login form again" do

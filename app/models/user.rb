@@ -33,4 +33,44 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable, :timeoutable
+
+
+  def seeker?
+    !self.provider?
+  end
+
+  def food?
+    true
+    # self.food_resource[:currently_offered]
+  end
+
+  def shower?
+    true
+    # self.shower_resource[:currently_offered]
+  end
+
+  def laundry?
+    true
+    # self.laundry_resource[:currently_offered]
+  end
+
+  def housing?
+    true
+    # self.housing_resource[:currently_offered]
+  end
+
+  def transportation?
+    true
+    # self.transportation_resource[:currently_offered]
+  end
+
+  def buddy?
+    true
+    # self.buddy_resource[:currently_offered]
+  end
+
+  def misc?
+    true
+    # self.misc_resource && self.misc_resource[:currently_offered]
+  end
 end

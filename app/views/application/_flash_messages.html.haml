@@ -1,0 +1,23 @@
+- if flash[:error]
+  .pure-u-1.notice-error-container
+    %i.fa.fa-exclamation-triangle.fa-2x
+    %span.notice-text
+      = flash[:error]
+
+- if flash[:warning]
+  .pure-u-1.notice-warning-container
+    %i.fa.fa-exclamation-triangle.fa-2x
+    %span.notice-text
+      = flash[:warning]
+
+- if flash[:alert]
+  .pure-u-1.notice-warning-container
+    %i.fa.fa-exclamation-triangle.fa-2x
+    %span.notice-text
+      = flash[:alert]
+
+- if flash[:success]
+  .pure-u-1.notice-success-container
+    %i.fa.fa-check-circle.fa-2x
+    %span.notice-text
+      = flash[:success]

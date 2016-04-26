@@ -15,8 +15,11 @@ gem 'jbuilder',     '~> 2.0' # Build JSON APIs with ease. Read more: https://git
 gem 'sdoc',         '~> 0.4.0', group: :doc # bundle exec rake doc:rails generates the API under doc/api.
 gem 'activerecord-postgis-adapter'
 
-# gem 'haml'
+# View gems
 gem "haml-rails", "~> 0.9"
+gem 'font-awesome-sass', '~> 4.5.0'
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'simple_form'
 
 group :development do
   gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views
