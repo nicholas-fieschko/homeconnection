@@ -27,4 +27,9 @@ module ApplicationHelper
     "header-username-#{gender_category(current_user.gender)}"
   end
 
+  # For mailbox view
+  def active_page(active_page)
+    @active == active_page ? "active" : ""
+  end
+
 end

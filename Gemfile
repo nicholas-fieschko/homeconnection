@@ -21,6 +21,9 @@ gem 'font-awesome-sass', '~> 4.5.0'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'simple_form'
 
+# User features
+gem 'mailboxer'
+
 group :development do
   gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views
 end
