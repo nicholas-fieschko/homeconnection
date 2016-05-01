@@ -9,11 +9,12 @@
         - if !current_user.nil? && current_user != @user
           = link_to "Contact #{@user.name}", new_conversation_path(@user.id), class: "btn btn-primary wizard-forward" 
 
-          -# if current_user.seeker? && @user.provider?
-            = link_to "Request help from #{@user.name}", new_user_exchange_path(@user.id), class: "btn btn-primary wizard-back", id: "request-help-button"
+          - if current_user.seeker? && @user.provider?
+            = link_to "Request help from #{@user.name}", new_exchange_path(@user.id), class: "btn btn-primary wizard-back", id: "request-help-button"
 
-          -# if current_user.provider? && @user.seeker?
-            = link_to "Offer help to #{@user.name}", new_user_exchange_path(@user.id), class: "btn btn-primary wizard-back", id: "request-help-button"
+          - if current_user.provider? && @user.seeker?
+            = link_to "Offer help to #{@user.name}", new_exchange_path(@user.id), class: "btn btn-primary wizard-back", id: "request-help-button"
+
         %h1#user-name.user-name{class: "header-username-#{gender_category(@user.gender)}"}
           = @user.name
       .pure-g

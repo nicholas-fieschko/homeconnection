@@ -32,4 +32,9 @@ module ApplicationHelper
     @active == active_page ? "active" : ""
   end
 
+  def inbox_notifications
+    num_unread_msgs = current_user.mailbox.inbox.select{|message| message.is_unread? current_user}.count
+    num_unread_msgs > 0 ? "(#{num_unread_msgs})" : ""
+  end
+
 end

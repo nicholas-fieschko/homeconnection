@@ -1,0 +1,29 @@
+%h1 Exchange Dashboard
+
+- if @exchanges.any?
+  %table
+    %thead
+      %tr
+        %th Provider
+        %th Seeker
+        %th Seeker has accepted
+        %th Provider has accepted
+        %th Seeker has finished exchange
+        %th Provider has finished exchange
+        %th
+        %th
+        %th
+
+    %tbody
+      - @exchanges.each do |exchange|
+        %tr
+          %td= User.find(exchange.provider_id).name
+          %td= User.find(exchange.seeker_id).name
+          %td= exchange.s_accepted
+          %td= exchange.p_accepted
+          %td= exchange.s_finished
+          %td= exchange.p_finished
+          %td= link_to 'Show', exchange
+          %td= link_to 'Cancel', exchange, :method => :delete, :data => { :confirm => 'Are you sure?' }
+- else
+  No exchanges with other users.

@@ -1,0 +1,22 @@
+- if action_available_to_current_user?
+  = form_for @exchange do |f|
+    .form-group
+      - if @exchange.new_record?
+        = "Exchange with #{User.find(params[:target_user_id]).name}?"
+        = f.hidden_field :provider_id, value: ids_of_exchange[:provider]
+        = f.hidden_field :seeker_id,   value: ids_of_exchange[:seeker]
+
+      = f.hidden_field user_next_step, value: true
+
+    .form-actions
+      = f.submit action_text
+    - if user_considering_offer?
+      = link_to "Decline", @exchange, method: :delete
+- if !@exchange.complete?
+  - if user_waiting_for_other_to_accept? || user_waiting_for_other_to_confirm_exchange_occurred?
+    = "Waiting for #{other_user.name} to respond."
+  = link_to "Cancel exchange", @exchange, method: :delete, data: { confirm: 'Are you sure?' }
+- else # @exchange.complete?
+  Exchange complete. Please leave a review for 
+  = link_to other_user.name, user_path(other_user)
+  %br

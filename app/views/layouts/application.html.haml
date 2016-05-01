@@ -17,7 +17,7 @@
     = csrf_meta_tags
     %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
 
-  %body
+  %body{class: "#{!current_page?(root_url) ? 'map-bg' : nil}"}
     = render 'header'
     = render 'flash_messages'
     = yield

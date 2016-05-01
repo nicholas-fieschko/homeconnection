@@ -36,6 +36,31 @@ class User < ActiveRecord::Base
     true
   end
 
+  def pronoun(tense)
+    standard_pronouns = { 
+      "male" => 
+      {"they" => "he",
+        "them" => "him", 
+        "their" => "his"},
+      "female" => 
+      {"they" => "she",
+        "them" => "her", 
+        "their" => "her"} }
+    identity = self.gender.downcase
+    standard_pronouns.has_key?(identity) ? standard_pronouns[identity][tense] : tense
+  end
+
+  def they
+    self.pronoun "they"
+  end
+
+  def them
+    self.pronoun "them"
+  end
+
+  def their
+    self.pronoun "their"
+  end
 
   def mailboxer_email(object)
     #if pref.likes_email?

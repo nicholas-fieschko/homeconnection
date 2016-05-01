@@ -6,7 +6,8 @@ var yale = new google.maps.LatLng(41.31845, -72.92226);
 var usrMarker = new google.maps.Marker;
 var map;
 
-$(document).ready(function() {
+
+$(document).on('page:load ready', function() {
   var url = "/location/posts"
   initialize();
 });

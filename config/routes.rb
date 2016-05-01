@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   
+
   devise_for :users, controllers: { registrations: 'registrations' }
   resources :users, only: [:show, :index]
+  resources :exchanges, path_names: { new: 'new/:target_user_id' }
 
   root 'pages#home'
 
@@ -9,6 +11,9 @@ Rails.application.routes.draw do
   get "/inbox" => "mailbox#inbox", as: :mailbox_inbox
   get "/sent" => "mailbox#sent", as: :mailbox_sent
   get "/trash" => "mailbox#trash", as: :mailbox_trash
+
+  # Exchange dashboard route
+  get '/dashboard' => 'exchanges#index'
 
   resources :conversations, path_names: { new: 'new/:recipient_id' } do
     member do

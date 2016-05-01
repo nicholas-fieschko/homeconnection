@@ -35,7 +35,5 @@ feature "Messaging" do
         expect(page).to have_text "Hello"
       end
     end
-
-
   end
 end

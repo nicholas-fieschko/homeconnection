@@ -11,8 +11,7 @@
           = link_to edit_user_registration_path(current_user) do
             Settings
         %li.pure-menu-item
-          = link_to mailbox_inbox_path do
-            Inbox
+          = link_to "Inbox#{inbox_notifications}", mailbox_inbox_path
         %li.pure-menu-item
           = link_to '/dashboard' do
             Dashboard
