@@ -32,13 +32,52 @@
 FactoryGirl.define do
   factory :user do 
     sequence(:email)  { |n| "test#{n}@example.com" }
-    password          "12345678"
+    password          "password"
     name              { Faker::Name.first_name }
     gender            { ["Male", "Female"].sample }
     birthday          { Faker::Date.between(10.years.ago, 100.years.ago).to_s } 
-    about             { Faker::Lorem.paragraph }
+    about             { Array.new(rand(1..4)) { Faker::StarWars.quote }.join(' ') }
     provider          { [true, false].sample }
+    zipcode           { Faker::Address.zip_code }
+
+    food              { [true, false].sample }
+    shelter           { [true, false].sample }
+    transport         { [true, false].sample }
+    shower            { [true, false].sample }
+    laundry           { [true, false].sample }
+    buddy             { [true, false].sample }
+    misc              { [true, false].sample }
+
+    food_info         { Faker::Lorem.paragraph if food      }
+    shelter_info      { Faker::Lorem.paragraph if shelter   }
+    transport_info    { Faker::Lorem.paragraph if transport }
+    shower_info       { Faker::Lorem.paragraph if shower    }
+    laundry_info      { Faker::Lorem.paragraph if laundry   }
+    buddy_info        { Faker::Lorem.paragraph if buddy     }
+    misc_info         { Faker::Lorem.paragraph if misc      }
+
+    shelter_accessible { shelter ? [true, false].sample : false }
+    shelter_pets       { shelter ? [true, false].sample : false }
 
     after(:create)    { |user| user.confirm }
+
+    # Stub out geocoding unless explicitly requested for test speed
+    after(:build) do |user| 
+      class << user
+        def geocode;         true; end
+        def set_lonlat;      true; end
+        def reverse_geocode; true; end
+      end
+    end
+
+    trait :with_geocoding do
+      after(:build) do |user| 
+        class << user
+          def geocode;         super; end
+          def set_lonlat;      super; end
+          def reverse_geocode; super; end
+        end
+      end
+    end
   end
 end

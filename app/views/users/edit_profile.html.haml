@@ -1,0 +1,82 @@
+.pure-g.login-column
+  .pure-u-1-8.side-columns
+    -#%ul.pure-menu-list
+      %li.pure-menu-item Profile - General
+      %li.pure-menu-item Profile - Resources
+  .pure-u-3-4.login-box-positioner
+    .account-settings-box.account-settings-column
+      %h2
+        Edit Profile
+      = form_for(@user, as: :user, url: registration_path(:user), html: { method: :put }) do |f|
+        .field
+          = f.label :food
+          %br/
+          = f.check_box :food
+        .field
+          = f.label :food_info
+          %br/
+          = f.text_area :food_info
+        .field
+          = f.label :shelter
+          %br/
+          = f.check_box :shelter
+        .field
+          = f.label :shelter_accessible
+          %br/
+          = f.check_box :shelter_accessible
+        .field
+          = f.label :shelter_pets
+          %br/
+          = f.check_box :shelter_pets
+        .field
+          = f.label :shelter_info
+          %br/
+          = f.text_area :shelter_info
+        .field
+          = f.label :transport
+          %br/
+          = f.check_box :transport
+        .field
+          = f.label :transport_info
+          %br/
+          = f.text_area :transport_info
+        .field
+          = f.label :shower
+          %br/
+          = f.check_box :shower
+        .field
+          = f.label :shower_info
+          %br/
+          = f.text_area :shower_info
+        .field
+          = f.label :laundry
+          %br/
+          = f.check_box :laundry
+        .field
+          = f.label :laundry_info
+          %br/
+          = f.text_area :laundry_info
+        .field
+          = f.label :buddy
+          %br/
+          = f.check_box :buddy
+        .field
+          = f.label :buddy_info
+          %br/
+          = f.text_area :buddy_info
+        .field
+          = f.label :misc
+          %br/
+          = f.check_box :misc
+        .field
+          = f.label :misc_info
+          %br/
+          = f.text_area :misc_info
+        .field
+          = f.label :current_password
+          %i (we need your current password to confirm your changes)
+          %br/
+          = f.password_field :current_password, autocomplete: "off"
+        .actions
+          = f.submit "Update"
+  .pure-u-1-8.side-columns

@@ -5,7 +5,7 @@ gem 'pg',           '0.18.4' # Use postgresql as the database for Active Record
 gem 'sass-rails',   '~> 5.0' # Use SCSS for stylesheets
 gem 'uglifier',     '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 gem 'coffee-rails', '~> 4.1.0' # Use CoffeeScript for .coffee assets and views
-gem 'devise'
+gem "redis-rails"
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -13,7 +13,10 @@ gem 'jquery-rails' # Use jquery as the JavaScript library
 gem 'turbolinks' # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'jbuilder',     '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'sdoc',         '~> 0.4.0', group: :doc # bundle exec rake doc:rails generates the API under doc/api.
+
+# Geocoding gems
 gem 'activerecord-postgis-adapter'
+gem 'geocoder'
 
 # View gems
 gem "haml-rails", "~> 0.9"
@@ -21,8 +24,11 @@ gem 'font-awesome-sass', '~> 4.5.0'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'simple_form'
 
-# User features
+# Messaging
 gem 'mailboxer'
+
+# User accounts / session management
+gem 'devise'
 
 group :development do
   gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views

@@ -1,0 +1,10 @@
+= simple_form_for(@review) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :public_comments
+    = f.input :private_comments
+    = f.input :rating
+
+  .form-actions
+    = f.button :submit

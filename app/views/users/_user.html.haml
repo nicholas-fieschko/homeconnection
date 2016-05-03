@@ -1,8 +1,7 @@
 = link_to user.name, user_path(user)
 = user.gender
 = if user.provider then "Provider" else "In need" end
-%br/
-= user.id
-= user.email
-= user.birthday
-= user.about
+%br
+= location_string user
+%br
+= truncate(user.about, length: 150, separator: ' ') { link_to "(continue)", user_path(user) }

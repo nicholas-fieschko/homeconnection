@@ -98,6 +98,20 @@ feature "Exchange system" do
                 expect(current_exchange.s_finished).to be true
               end
 
+              describe "cancelling the exchange" do
+                it "user sees a button to cancel the offer on its confirmation page" do
+                  expect(page).to have_link "Cancel"
+                end
+
+                it "clicking the link deletes the exchange" do
+                  expect{ click_link "Cancel" }.to change{ Exchange.count }.by -1
+                end
+
+                it "notifies the other user the exchange was cancelled" do
+                  expect{ click_link "Cancel" }.to change{ provider.mailbox.inbox.count }.by 1
+                end
+              end
+
               describe "process to confirm exchange occurred - second user" do
                 before do
                   click_button "Confirm"
@@ -144,19 +158,7 @@ feature "Exchange system" do
             end
 
 
-            describe "cancelling the exchange" do
-              it "user sees a button to decline the offer on its confirmation page" do
-                expect(page).to have_link "Cancel"
-              end
 
-              it "clicking the link deletes the exchange" do
-                expect{ click_link "Cancel" }.to change{ Exchange.count }.by -1
-              end
-
-              it "notifies the other user the exchange was declined" do
-                expect{ click_link "Cancel" }.to change{ provider.mailbox.inbox.count }.by 1
-              end
-            end
 
           end
         end

@@ -7,5 +7,5 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 100.times do
-  FactoryGirl.create :user
+  FactoryGirl.create :user, :with_geocoding
 end

@@ -2,7 +2,7 @@ var infowindow = new google.maps.InfoWindow();
 var userAround = [];
 var curUsers = [];
 var markers = [];
-var yale = new google.maps.LatLng(41.31845, -72.92226);
+var yale = new google.maps.LatLng(HC.user_latitude, HC.user_longitude);
 var usrMarker = new google.maps.Marker;
 var map;
 
@@ -34,23 +34,22 @@ function initialize() {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
 
-  map = new google.maps.Map(map_canvas, map_options);
+    map = new google.maps.Map(map_canvas, map_options);
     initialLocation = yale;
     map.setCenter(initialLocation);
     // Try W3C Geolocation 
     // (https://developers.google.com/maps/articles/geolocation)
     if (navigator.geolocation) {
-    browserSupportFlag = true;
-    navigator.geolocation.getCurrentPosition(function(position) {
-      initialLocation = new google.maps.LatLng(position.coords.
-                latitude, position.coords.longitude);
-      map.setCenter(initialLocation);
+      browserSupportFlag = true;
+      navigator.geolocation.getCurrentPosition(function(position) {
+        // initialLocation = new google.maps.LatLng(position.coords.
+        //   latitude, position.coords.longitude);
+        map.setCenter(initialLocation);
       // We want to put a marker on our location
       setUsrMarker([initialLocation.lng(),initialLocation.lat()], map);
-      queryNearbyUsers(initialLocation.lat(), 
-      initialLocation.lng(), map, 1);
+      // queryNearbyUsers(initialLocation.lat(), initialLocation.lng(), map, 1);
       },function () {
-      handleNoGeolocation(browserSupportFlag, map);
+        handleNoGeolocation(browserSupportFlag, map);
       });
     } else {
       browserSupportFlag = false;
@@ -59,12 +58,12 @@ function initialize() {
 
   google.maps.event.addListener(map, 'dragend', function() {
     var newCenter = map.getCenter();
-    queryNearbyUsers(newCenter.lat(), newCenter.lng(), map, 0);
+    // queryNearbyUsers(newCenter.lat(), newCenter.lng(), map, 0);
   });
 
   google.maps.event.addListener(map, 'zoom_changed', function() {
     var newCenter = map.getCenter();
-    queryNearbyUsers(newCenter.lat(), newCenter.lng(), map, 0);
+    // queryNearbyUsers(newCenter.lat(), newCenter.lng(), map, 0);
   });
 }
 

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
 
+  resources :reviews
+
   devise_for :users, controllers: { registrations: 'registrations' }
   resources :users, only: [:show, :index]
   resources :exchanges, path_names: { new: 'new/:target_user_id' }
@@ -14,6 +16,10 @@ Rails.application.routes.draw do
 
   # Exchange dashboard route
   get '/dashboard' => 'exchanges#index'
+
+  # Profile routes
+  get '/profile/edit' => 'users#edit_profile'
+  get '/profile' => 'users#profile'
 
   resources :conversations, path_names: { new: 'new/:recipient_id' } do
     member do

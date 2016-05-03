@@ -23,9 +23,9 @@
             = @user.seeker? ? "Resource seeker" : "Resource provider"
           %div
             %span{class: "header-username-#{@user.gender}"}
-              = @user.gender.downcase
+              = @user.gender.capitalize
             .user-location
-              = "Fooville" # "#{@user.location.city}, #{@user.location.state}"
+              = location_string @user
             %ul.user-resources
           - if @user.food?
             %li Food

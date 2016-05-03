@@ -1,3 +1,29 @@
+Search form
+
+= form_tag users_path, method: :get do
+  Distance
+  = number_field_tag :distance, params[:distance]
+  = check_box_tag :food, 1, params[:food]
+  Food
+  = check_box_tag :shelter, 1, params[:shelter]
+  Housing
+  = check_box_tag :transport, 1, params[:transport]
+  Transport
+  = check_box_tag :shower, 1, params[:shower]
+  Shower
+  = check_box_tag :laundry, 1, params[:laundry]
+  Laundry
+  = check_box_tag :buddy, 1, params[:buddy]
+  Buddy
+  = check_box_tag :misc, 1, params[:misc]
+  Misc
+  = submit_tag "Search", name: nil
+
 - @users.each do |user|
   %p
-    = render user
+    = link_to user.name, user
+    = "#{number_with_precision(current_user.distance_from(user), precision: 1)} miles away" unless current_user.distance_from(user).nil?
+    = " - #{location_string user}"
+    %br
+    = user.provider? ? "Provides: " : "Needs: "
+    = resources_string user

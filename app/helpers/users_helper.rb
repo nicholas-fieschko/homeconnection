@@ -30,4 +30,20 @@
 #
 
 module UsersHelper
+
+  def location_string(user)
+    [user.city, user.state, user.country].reject(&:blank?).join(', ')
+  end
+
+  def resources_string(user)
+    resources = []
+    resources << "food"           if user.food?
+    resources << "housing"        if user.shelter?
+    resources << "transportation" if user.transport?
+    resources << "shower"         if user.shower?
+    resources << "laundry"        if user.laundry?
+    resources << "buddy system"   if user.buddy?
+    resources << "other"          if user.misc?
+    resources.join(', ')
+  end
 end
