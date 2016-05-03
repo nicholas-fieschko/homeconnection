@@ -2,6 +2,6 @@
 
 = render 'form'
 
-= link_to 'Show', @review
+= link_to 'Show', user_review_path(id: @review.id, user_id: params[:user_id])
 \|
-= link_to 'Back', reviews_path
+= link_to 'Back', user_reviews_path(user_id: params[:user_id])

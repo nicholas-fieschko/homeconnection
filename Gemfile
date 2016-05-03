@@ -22,7 +22,6 @@ gem 'geocoder'
 gem "haml-rails", "~> 0.9"
 gem 'font-awesome-sass', '~> 4.5.0'
 gem 'bootstrap-sass', '~> 3.2.0'
-gem 'simple_form'
 
 # Messaging
 gem 'mailboxer'

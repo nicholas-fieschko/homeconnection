@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
   
-
-  resources :reviews
-
   devise_for :users, controllers: { registrations: 'registrations' }
-  resources :users, only: [:show, :index]
+  resources :users, only: [:show, :index] do
+    resources :reviews
+  end
   resources :exchanges, path_names: { new: 'new/:target_user_id' }
 
   root 'pages#home'

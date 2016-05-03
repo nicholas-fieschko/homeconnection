@@ -16,10 +16,10 @@
         %td= review.public_comments
         %td= review.private_comments
         %td= review.rating
-        %td= link_to 'Show', review
-        %td= link_to 'Edit', edit_review_path(review)
-        %td= link_to 'Destroy', review, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to 'Show', user_review_path(id: review.id, user_id: params[:user_id])
+        %td= link_to 'Edit', edit_user_review_path(id: review.id, user_id: params[:user_id])
+        %td= link_to 'Destroy', user_review_path(id: review.id, user_id: params[:user_id]), :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'New Review', new_review_path
+= link_to 'New Review', new_user_review_path
