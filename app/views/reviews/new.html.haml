@@ -1,5 +1,9 @@
-%h1 New review
+.pure-g.grid-columns-container
+  .pure-u-1-8
+  .pure-u-3-4#signup-column
+    %h1.cursive#signup-title Writing new review for #{User.find(params[:user_id]).name}
 
-= render 'form'
+    = render 'form'
 
-= link_to 'Back', user_reviews_path
+    = link_to 'Back', :back, class: "btn btn-warning cursive"
+  .pure-u-1-8

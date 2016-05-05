@@ -1,29 +1,31 @@
-%header.home-menu.pure-menu.pure-menu-horizontal
-  =link_to render("logo"), '/', class: "pure-menu-heading #{current_page?('/') && !signed_in? ? 'logo-homepage' : nil}", id: "logo"
-  %span.header-menu-items
-    %ul.pure-menu-list
-      - if signed_in?
-        - # Signed in user Navbar
-        %li.pure-menu-item
-          Signed in as
-          = link_to current_user.name, current_user, id: "header-username", class: gender_category_class
-        %li.pure-menu-item
-          = link_to edit_user_registration_path(current_user) do
-            Settings
-        %li.pure-menu-item
-          = link_to "Inbox#{inbox_notifications}", mailbox_inbox_path
-        %li.pure-menu-item
-          = link_to '/dashboard' do
-            Dashboard
-        %li.pure-menu-item
-          = link_to "Sign out", destroy_user_session_path, method: "delete", id: 'sign-out-button', class: "btn btn-header btn-sign-out"
-      - else                             
-        - # Signed in user Navbar
-        %li.pure-menu-item
-          - unless current_page? new_user_registration_path
-            = link_to "Sign up", new_user_registration_path, 
-            id: 'sign-up-button', class: "btn btn-header #{current_page?('/') && !signed_in? ? 'btn-lg-header' : nil} btn-sign-up"
-        %li.pure-menu-item
-          - unless current_page? new_user_session_path
-            = link_to "Sign In", new_user_session_path, 
-            id: 'sign-in-button', class: "btn btn-header #{current_page?('/') && !signed_in? ? 'btn-lg-header' : nil} btn-sign-in"
+- unless current_page? splash_url
+  %header.home-menu.pure-menu.pure-menu-horizontal
+    =link_to render("logo"), '/', class: "pure-menu-heading", id: "logo"
+    %span.header-menu-items.header-user-functions
+      %ul.pure-menu-list
+        - if signed_in? # Signed in user Navbar
+          %li.pure-menu-item
+            Signed in as
+            = link_to current_user.name, profile_path, id: "header-username", class: "cursive"
+          |
+          %li.pure-menu-item
+            = link_to "Settings", '/settings'
+          |
+          %li.pure-menu-item
+            = link_to "Inbox#{inbox_notifications}", mailbox_inbox_path
+          |
+          %li.pure-menu-item
+            = link_to "Dashboard", '/dashboard'
+          |
+          %li.pure-menu-item
+            = link_to "Sign out >", destroy_user_session_path, method: "delete", class: "sign-in-btn"
+        - else # Signed out user Navbar
+          %li.pure-menu-item
+            = link_to "Sign In >", new_user_session_path, id: 'sign-in-button', class: "sign-in-btn" unless current_page? new_user_session_path
+- else
+  %header.pure-menu.pure-menu-horizontal
+    %span.header-menu-items
+      %ul.pure-menu-list
+        %li.pure-menu-item#splash-login-header
+          Already have an account?
+          = link_to "Sign In >", new_user_session_path, class: "sign-in-btn"

@@ -1,0 +1,12 @@
+#splash-wrapper
+  #splash-header
+    %h1 Home Connections
+    = form_tag new_user_registration_path, method: :get, class: "splash-form" do
+      = hidden_field_tag :is_provider, 1
+      = submit_tag "< I can help", name: nil, class: "btn btn-success btn-splash-signup"
+    = form_tag new_user_registration_path, method: :get, class: "splash-form" do
+      = hidden_field_tag :is_provider, 0
+      = submit_tag "I need help >", name: nil, class: "btn btn-success btn-splash-signup"
+    %br
+    %br
+    = link_to "Learn More", about_path, class: "btn btn-warning btn-splash-learn"

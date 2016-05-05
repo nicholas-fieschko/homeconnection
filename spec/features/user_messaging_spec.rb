@@ -11,13 +11,13 @@ feature "Messaging" do
     end
 
     it "Bob should see a contact button on Alice's userpage" do
-      expect(page).to have_link "Contact Alice", 
+      expect(page).to have_link "Contact", 
                         href: new_conversation_path(alice.id)
     end
 
     describe "Sending the first message" do
       before do
-        click_on "Contact Alice"
+        click_on "Contact"
         fill_in "conversation_subject", with: "Hello"
         fill_in "conversation_body", with: "Just saying hi"
       end

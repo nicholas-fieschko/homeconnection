@@ -1,67 +1,75 @@
-=# render @user
 - provide :title, @user.name
 
 .pure-g.grid-columns-container
-  .pure-u-1-8.side-columns
-  .pure-u-3-4.login-box-positioner
-    #profile-page.sign-up-box.sign-up-column
-      .pure-u-1
-        - if !current_user.nil? && current_user != @user
-          = link_to "Contact #{@user.name}", new_conversation_path(@user.id), class: "btn btn-primary wizard-forward" 
+  .pure-u-1-12
+  .pure-u-22-24#user-profile-header
+    %h1.cursive#user-profile-name #{@user.name}
+    = "     - #{@user.provider? ? 'Able to provide:' : 'In need of:' }"
+    #{authorized_resources_string}
+  .pure-u-1-24
+  .pure-u-15-24
+    .pure-g.grid-columns-container
+      .pure-u-2-3
+        %ul
+          %li Location: #{authorized_location_string}
+          %li Last active: #{authorized_activity_string}
+      .pure-u-1-3
+        = link_to "Contact", new_conversation_path(@user.id), class: "btn btn-lg btn-primary cursive" 
+        - if current_user.seeker? && @user.provider?
+          = link_to "Request help", new_exchange_path(@user.id), class: "btn btn-lg btn-primary cursive" 
+        - if current_user.provider? && @user.seeker?
+          = link_to "Offer help", new_exchange_path(@user.id), class: "btn btn-lg btn-success cursive" 
 
-          - if current_user.seeker? && @user.provider?
-            = link_to "Request help from #{@user.name}", new_exchange_path(@user.id), class: "btn btn-primary wizard-back", id: "request-help-button"
-
-          - if current_user.provider? && @user.seeker?
-            = link_to "Offer help to #{@user.name}", new_exchange_path(@user.id), class: "btn btn-primary wizard-back", id: "request-help-button"
-
-        %h1#user-name.user-name{class: "header-username-#{gender_category(@user.gender)}"}
-          = @user.name
-      .pure-g
-        .pure-u-1-4#profile-left-column
-          %h2.user-status
-            = @user.seeker? ? "Resource seeker" : "Resource provider"
-          %div
-            %span{class: "header-username-#{@user.gender}"}
-              = @user.gender.capitalize
-            .user-location
-              = location_string @user
-            %ul.user-resources
-          - if @user.food?
-            %li Food
-          - if @user.shower?
-            %li Shower
-          - if @user.laundry?
-            %li Laundry
-          - if @user.housing?
-            %li Housing
-          - if @user.transportation?
-            %li Transport
-          - if @user.buddy?
-            %li Mentoring
-        .pure-u-3-4#profile-right-column
-          %h2 About #{@user.name}
-          - if @user.about.blank?
-            - if current_user == @user
-              You can edit your profile summary on
-              = link_to "your settings page.", edit_user_path(current_user)
-            - else
-              #{@user.name} has not yet filled out #{@user.their} profile. Consider reaching out to #{@user.them} and helping #{@user.them} get started.
-          - else
-            = @user.about
-
-      -#
-        .pure-u-1#profile-bottom-section
-          %h3.user-rating
-          - if @user.number_reviews > 0
-            Average Rating
-            = get_stars(@user.average_rating)
-            %h3 
-              = "Reviews (#{@user.number_reviews})"
-            %ol.reviews
-              = render @reviews
-          - else
-            %h3 
-              #{@user.name} does not yet have any reviews.
-  .pure-u-1-8.side-columns
-
+    %table.pure-table.pure-table-horizontal#user-profile-table
+      %tr
+        %td
+          %h2 Personal Profile
+          %ul
+            %li Gender: #{authorized_gender_string}
+            %li Age: #{authorized_age_string}
+            %li Email: #{authorized_email_string}
+            %li 
+              %h4 About: 
+              %p #{authorized_about_string}
+            - if can_view_resource_info?
+              %h4 Resource Notes
+              - if @user.food? && !@user.food_info.blank?
+                %h5 Food:
+                %li #{@user.food_info}
+              - if @user.shelter? && !@user.shelter_info.blank?
+                %h5 Shelter:
+                %li #{@user.shelter_info}
+              - if @user.transport? && !@user.transport_info.blank?
+                %h5 Transportation:
+                %li #{@user.transport_info}
+              - if @user.shower? && !@user.shower_info.blank?
+                %h5 Showers:
+                %li #{@user.shower_info}
+              - if @user.laundry? && !@user.laundry_info.blank?
+                %h5 Laundry:
+                %li #{@user.laundry_info}
+              - if @user.buddy? && !@user.buddy_info.blank?
+                %h5 Mentoring & Buddy system:
+                %li #{@user.buddy_info}
+              - if @user.misc? && !@user.misc_info.blank?
+                %h5 Other:
+                %li #{@user.misc_info}
+  .pure-u-8-24
+    %table.pure-table.pure-table-horizontal
+      %thead
+        %th
+          %h2.cursive Reviews of #{@user.name} (#{@reviews.size})
+      - @reviews.each do |review|
+        %tr
+          %td 
+            By
+            = link_to User.find(review.author_id).name, User.find(review.author_id)
+            on #{review.created_at.strftime '%x'}
+            %br
+            Rating: #{review.rating} / 5
+            %br
+            #{review.public_comments}
+            %br
+            \--
+            %p #{authorized_private_review_string(review)}
+            %br

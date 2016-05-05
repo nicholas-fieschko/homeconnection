@@ -1,12 +1,12 @@
 @import "bootstrap-sprockets"
 @import "bootstrap"
 
-$trans-pink:                  #3B2E2E
-$trans-blue:                  #A4C639
+$main-primary:                  #3B2E2E
+$main-secondary:                  #A4C639
 $trans-purple:                #BF55EC
 
-$light-trans-pink:            #574236
-$light-trans-blue:            #D1E29C
+$light-main-primary:            #574236
+$light-main-secondary:            #D1E29C
 
 $error-red:                   #E74C3C
 
@@ -31,6 +31,14 @@ $error-red:                   #E74C3C
     @content
   &:-ms-input-placeholder 
     @content
+
+@font-face
+  font-family: 'TikalSans'
+  src: font-url('TikalSans-Medium-webfont.eot')
+  src: font-url('TikalSans-Medium-webfont.eot?#iefix') format('embedded-opentype'), font-url('TikalSans-Medium-webfont.ttf') format('truetype'), font-url('TikalSans-Medium-webfont.woff') format('woff'), font-url('TikalSans-Medium-webfont.svg#icofonts') format('svg')
+  font-weight: normal
+  font-style: normal
+  
 li
   list-style:                 none
 
@@ -40,18 +48,99 @@ li.pure-menu-item
 header
   overflow:                   auto
 
+#user-profile-name
+  display: inline-block
+  margin-right: .2em
+
+#user-profile-header
+  font-weight: bold
+
 .logo-homepage#logo
   font-size:                  300%
 .header-menu-items
   float:                      right
 #logo
+  text-transform: none
   float:                      left
   text-decoration:            none
   font-size:                  1.5em
 #logo-housing
-  color:                      $trans-blue
+  color:                      $main-secondary
 #logo-trans
-  color:                      $trans-pink
+  color:                      $main-primary
+
+span.header-user-functions
+  padding: 0.5em 1em
+
+#splash-wrapper
+  text-align: center
+  display: inline-block
+  height: 100%
+  width: 100%
+
+#splash-wrapper::before
+  content: ""
+  display: inline-block
+  height: 80%
+  margin-right: -0.25em
+  vertical-align: middle
+
+#splash-header
+  display: inline-block
+  vertical-align: middle
+  width: 40%
+
+#splash-header h1
+  font-size: 3em
+  font-family: Pacifico, cursive
+  color: #428BCA
+
+#logo-text
+  font-family: Pacifico, cursive
+  color: #428BCA
+  font-size: 1.5em
+
+#signup-column
+  text-align: center
+#signup-button, #form-submit-button
+  font-size: 2em
+#signup-title
+  font-size: 2em
+  
+#user-profile-table
+  width: 100%
+
+#user-profile-table h2
+  margin-top: 0
+
+input#distance
+  width: 4em
+
+html, body
+  height: 100%
+
+.sign-in-btn, button
+  font-family: "Pacifico",cursive
+  border-radius: 6em
+  border: none
+
+input.btn-splash-signup
+  font-size: 1.5em
+  line-height: 1em
+  margin: 0em 1em
+
+input.btn-splash-signup, a.btn-splash-learn, .cursive
+  font-family: "Pacifico",cursive
+
+#splash-login-header
+  line-height: 3em
+  margin-right: 2em
+
+form.splash-form
+  display: inline-block
+
+.exchange-table
+  width: 100%
 
 h2
   font-size:                  1.5em
@@ -63,8 +152,6 @@ h2
 .btn-header
   @include                    transition(all 0.2s ease-in-out)
   color:                      white
-  text-transform:             uppercase
-  font-weight:                bold
   margin:                     8px 5px
 
 .btn-lg-header
@@ -74,19 +161,19 @@ h2
   margin:                     12px 5px
 
 #sign-up-button.btn-sign-up
-  @include                    btn-hover-invert($trans-blue,white)
+  @include                    btn-hover-invert($main-secondary,white)
 
 #sign-in-button.btn-sign-in,#sign-out-button.btn-sign-out
-  @include                    btn-hover-invert($trans-pink,white)
+  @include                    btn-hover-invert($main-primary,white)
 
 a#header-username
   text-decoration:            none
 
 a#header-username,h1#user-name
   &.header-username-male
-    color:                    $trans-blue
+    color:                    $main-secondary
   &.header-username-female
-    color:                    $trans-pink
+    color:                    $main-primary
   &.header-username-nb
     color:                    $trans-purple
 
@@ -94,7 +181,7 @@ i.settings-icon
   vertical-align:             middle
   text-align:                 center
   &:hover
-    color:                    $trans-blue
+    color:                    $main-secondary
     -webkit-animation:        spin 3.1s infinite linear
     -moz-animation:           spin 3.1s infinite linear
     -o-animation:             spin 3.1s infinite linear
@@ -105,7 +192,7 @@ i.settings-icon
   height:                     400vh
 
 .pure-g [class *="pure-u"]
-  font-family:                'Source Sans Pro', sans-serif !important
+  font-family:                'TikalSans', sans-serif !important
   @include                    transition(all 1s ease-in-out)
 
 .filters,.filter-placeholder
@@ -125,7 +212,7 @@ i.settings-icon
 
   
 body
-  font-family:                'Source Sans Pro', sans-serif
+  font-family:                'TikalSans', sans-serif
 
 input:-webkit-autofill
   -webkit-box-shadow:         0 0 0px 1000px white inset !important
@@ -160,7 +247,7 @@ select
 .notice-container
   padding:                    15px
   text-align:                 center
-  font-family:                "Source Sans Pro", sans-serif
+  font-family:                "TikalSans", sans-serif
 
 .notice-error-container
   @extend                     .notice-container
@@ -190,7 +277,7 @@ span.notice-text
 // User Profile SASS
 .grid-columns-container,.user-profile-column,.sign-up-column,.gen-column
   height:                     100%
-  font-family:                'Source Sans Pro', sans-serif
+  font-family:                'TikalSans', sans-serif
 
 .user-profile-column,.account-settings-column
   background-color:           white
@@ -258,7 +345,7 @@ span.input-error
   @extend                     .btn 
   @extend                     .btn-header 
   @extend                     .btn-sign-up
-  @include                    btn-hover-invert($trans-blue,white)
+  @include                    btn-hover-invert($main-secondary,white)
 
 #submit_signup
   @extend                     .wizard-forward 
@@ -268,7 +355,7 @@ span.input-error
   @extend                     .btn 
   @extend                     .btn-header 
   @extend                     .btn-sign-up
-  @include                    btn-hover-invert($trans-pink,white)
+  @include                    btn-hover-invert($main-primary,white)
 
 div fieldset
   border:                     none
@@ -288,7 +375,6 @@ div fieldset
 @mixin login-field-label($bg-color,$text-color)
   @include                    bg-and-text-color($bg-color,$text-color)
   cursor:                     default
-  text-transform:             uppercase
   display:                    block
   font-size:                  1.5em
   font-weight:                normal
@@ -314,21 +400,21 @@ div fieldset
   height:                     100%
 
 .login-username-label
-  @include                    login-field-label(white,$trans-blue)
+  @include                    login-field-label(white,$main-secondary)
 
 .login-username-input
-  @include                    login-field-input($trans-blue)
+  @include                    login-field-input($main-secondary)
 
 .login-password-label
-  @include                    login-field-label(white,$trans-pink)
+  @include                    login-field-label(white,$main-primary)
 
 .login-password-input
-  @include                    login-field-input($trans-pink)
+  @include                    login-field-input($main-primary)
 
 .login-submit-button
   @extend                     .btn
   @extend                     .btn-header
-  @include                    btn-hover-invert($trans-pink, white)
+  @include                    btn-hover-invert($main-primary, white)
   font-size:                  17px
   padding:                    10px
   width:                      100%
@@ -356,20 +442,20 @@ div fieldset
   background-color:           white
   padding:                    15px
   text-align:                 center
-  font-family:                'Source Sans Pro', sans-serif
+  font-family:                'TikalSans', sans-serif
 
 
 .login-box-positioner
   position:                   relative
   height:                     100%
-  border-color:               $light-trans-pink
+  border-color:               aliceblue
   border-style:               solid
   border-width:               2em
   overflow:                   auto
 
 
 .map-bg
-  background-color:           $light-trans-blue
+  background-color:           $light-main-secondary
 
 .side-columns
   border-style:               double

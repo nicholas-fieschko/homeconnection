@@ -1,9 +1,17 @@
 module ExchangesHelper
 
+  def other_user(exchange=@exchange)
+    User.find(current_user.seeker? ? exchange.provider_id : exchange.seeker_id)
+  end
+
+  def has_left_review?(user, exchange)
+    Review.where(author_id: user.id, exchange_id: exchange.id).any?
+  end
+
   def user_considering_offer?
     # The other user has accepted, but not the current one:
     (current_user.provider? ? @exchange.s_accepted : @exchange.p_accepted) && 
-      !(@exchange.s_accepted && @exchange.p_accepted)
+      !(@exchange.s_accepted && @exchange.p_accepted) && (!@exchange.p_finished && !@exchange.s_finished)
   end
 
   def user_waiting_for_other_to_accept?
@@ -22,14 +30,14 @@ module ExchangesHelper
 
   def user_confirming_exchange_occurred?
     # Both users have accepted the exchange, next step is for mutual confirmation the exchange was completed
-    (@exchange.s_accepted && @exchange.p_accepted)
+    (@exchange.s_accepted && @exchange.p_accepted) && (current_user.seeker? ? !@exchange.s_finished : !@exchange.p_finished)
   end
 
   def action_text
     if @exchange.new_record?
-      "Offer help"
+      current_user.provider? ? "Offer help" : "Request help"
     elsif user_considering_offer?
-      "Accept offer"
+      "Accept #{current_user.provider? ? 'request' : 'offer'}"
     else
       "Confirm exchange completed"
     end
@@ -53,10 +61,6 @@ module ExchangesHelper
       ids[:seeker]   = @exchange.seeker_id
     end
     ids
-  end
-
-  def other_user
-    User.find(current_user.seeker? ? @exchange.provider_id : @exchange.seeker_id)
   end
 
 end

@@ -1,63 +1,34 @@
-.pure-g.login-column
-  .pure-u-1-8.side-columns
-    -#%ul.pure-menu-list
-      %li.pure-menu-item Profile - General
-      %li.pure-menu-item Profile - Resources
-  .pure-u-3-4.login-box-positioner
-    .account-settings-box.account-settings-column
-      %h2
-        Edit #{resource_name.to_s.humanize}
-      = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-        = devise_error_messages!
-        .field
+.pure-g.grid-columns-container
+  .pure-u-1-8
+    %ul.pure-menu-list
+      %li.pure-menu-item Login Settings
+      %li.pure-menu-item 
+        = link_to "General", '/profile/edit'
+      %li.pure-menu-item
+        = link_to "Resources", '/resource_profile/edit'
+      %li.pure-menu-item 
+        = link_to "Privacy", '/privacy'
+  .pure-u-3-4#signup-column
+    %h2.cursive#signup-title Login Settings
+    = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "pure-form pure-form-aligned" }) do |f|
+      = devise_error_messages!
+      %fieldset
+        .pure-control-group
           = f.label :email
-          %br/
           = f.email_field :email, autofocus: true
         - if devise_mapping.confirmable? && resource.pending_reconfirmation?
           %div
             Currently waiting confirmation for: #{resource.unconfirmed_email}
-        .field
-          = f.label :name
-          %br/
-          = f.text_field :name
-        .field
-          = f.label :gender
-          %br/
-          = f.text_field :gender
-        .field
-          = f.label :zipcode
-          %br/
-          = f.text_field :zipcode
-        .field
-          = f.label :birthday
-          %br/
-          = f.date_field :birthday
-        .field
-          = f.label :about
-          %br/
-          = f.text_area :about
-        .field
-          = f.label :provider
-          %br/
-          = f.check_box :provider
-        .field
-          = f.label :password
-          %i (leave blank if you don't want to change it)
-          %br/
+        .pure-control-group
+          = f.label "Current Password"
+          = f.password_field :current_password, autocomplete: "off", placeholder: "(required to save any changes!)"
+        .pure-control-group
+          = f.label "Change Password"
           = f.password_field :password, autocomplete: "off"
-        .field
-          = f.label :password_confirmation
-          %br/
+        .pure-control-group
+          = f.label "Confirm Change"
           = f.password_field :password_confirmation, autocomplete: "off"
-        .field
-          = f.label :current_password
-          %i (we need your current password to confirm your changes)
-          %br/
-          = f.password_field :current_password, autocomplete: "off"
         .actions
-          = f.submit "Update"
-      %h3 Cancel my account
-      %p
-        Unhappy? #{button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}
-      = link_to "Back", :back
-  .pure-u-1-8.side-columns
+          = f.submit "Update", class: "btn btn-success cursive", id: "form-submit-button"
+    = button_to "Delete account", registration_path(resource_name), {data: { confirm: "Are you absolutely sure? This cannot be undone." }, method: :delete, class: "btn btn-danger cursive"}
+  .pure-u-1-8

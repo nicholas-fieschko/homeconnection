@@ -1,7 +1,10 @@
 class PagesController < ApplicationController
 
-  def home
-    @results_users = User.all
+  def splash
+    redirect_to root_path if signed_in?
+  end
+
+  def about
   end
 
 end

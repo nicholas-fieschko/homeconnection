@@ -1,4 +1,5 @@
 class ReviewsController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_review, only: [:show, :edit, :update, :destroy]
   before_action :set_user,   only: [:new, :edit, :update]
 
@@ -28,7 +29,7 @@ class ReviewsController < ApplicationController
     @review = Review.new(review_params)
 
     if @review.save
-      redirect_to user_review_path(id: @review.id, user_id: params[:user_id]), notice: 'Review was successfully created.'
+      redirect_to '/dashboard', notice: 'Review was successfully created.'
     else
       render :new
     end
@@ -38,7 +39,7 @@ class ReviewsController < ApplicationController
   # PATCH/PUT /reviews/1.json
   def update
     if @review.update(review_params)
-      redirect_to user_review_path(id: @review.id, user_id: params[:user_id]), notice: 'Review was successfully updated.'
+      redirect_to '/dashboard', notice: 'Review was successfully updated.'
     else
       render :edit
     end
@@ -48,7 +49,7 @@ class ReviewsController < ApplicationController
   # DELETE /reviews/1.json
   def destroy
     @review.destroy
-    redirect_to user_reviews_url(user_id: params[:user_id]), notice: 'Review was successfully destroyed.'
+    redirect_to '/dashboard', notice: 'Review was successfully deleted.'
   end
 
   private
@@ -63,6 +64,6 @@ class ReviewsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def review_params
-      params.require(:review).permit(:public_comments, :private_comments, :rating)
+      params.require(:review).permit(:public_comments, :private_comments, :rating, :author_id, :user_id, :exchange_id)
     end
 end

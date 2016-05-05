@@ -22,6 +22,7 @@ feature "Logging in" do
         fill_in "Email", with: user.email
         fill_in "Password", with: "password123"
         click_button "Log in"
+        visit user_path user
 
         expect(page).to have_text /signed in/i
       end

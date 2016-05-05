@@ -1,29 +1,52 @@
-%h1 Exchange Dashboard
+.pure-g.grid-columns-container
+  .pure-u-1-8
+  .pure-u-3-4#signup-column
+    %h2.cursive#signup-title Dashboard
+    %br
+    %h4.cursive In-Progress Exchanges
+    - if @pending.any?
+      %br
+      %table.pure-table.exchange-table
+        %thead
+          %tr
+            %th With
+            %th Began On
+            %th Last Updated
+            %th 
+        - @pending.each do |exchange|
+          %tr
+            %td 
+              = link_to "#{other_user(exchange).name}", other_user(exchange)
+            %td #{exchange.created_at.strftime '%x - %H:%M'}
+            %td #{exchange.updated_at.strftime '%x - %H:%M'}
+            %td 
+              = link_to 'Details', edit_exchange_path(exchange)
+    - else
+      Currently no exchanges in progress with other users. 
+    %br
+    %br
+    %h4.cursive Complete Exchanges
+    - if @complete.any?
+      %br
+      %table.pure-table.exchange-table
+        %thead
+          %tr
+            %th With
+            %th Began On
+            %th Completed
+            %th Further Actions
+        - @complete.each do |exchange|
+          %tr
+            %td 
+              = link_to "#{other_user(exchange).name}", other_user(exchange)
+            %td #{exchange.created_at.strftime '%x - %H:%M'}
+            %td #{exchange.updated_at.strftime '%x - %H:%M'}
+            %td 
+              - unless has_left_review?(current_user, exchange)
+                = link_to 'Details', edit_exchange_path(exchange)
+              - else
+                None
 
-- if @exchanges.any?
-  %table
-    %thead
-      %tr
-        %th Provider
-        %th Seeker
-        %th Seeker has accepted
-        %th Provider has accepted
-        %th Seeker has finished exchange
-        %th Provider has finished exchange
-        %th
-        %th
-        %th
-
-    %tbody
-      - @exchanges.each do |exchange|
-        %tr
-          %td= User.find(exchange.provider_id).name
-          %td= User.find(exchange.seeker_id).name
-          %td= exchange.s_accepted
-          %td= exchange.p_accepted
-          %td= exchange.s_finished
-          %td= exchange.p_finished
-          %td= link_to 'Show', exchange
-          %td= link_to 'Cancel', exchange, :method => :delete, :data => { :confirm => 'Are you sure?' }
-- else
-  No exchanges with other users.
+    - else
+      Currently no complete exchanges. 
+  .pure-u-1-8

@@ -2,10 +2,10 @@
 
 %p
   %b Provider:
-  = User.find(@exchange.provider_id).name
+  = link_to User.find(@exchange.provider_id).name, User.find(@exchange.provider_id)
 %p
   %b Seeker:
-  = User.find(@exchange.seeker_id).name
+  = link_to User.find(@exchange.seeker_id).name, User.find(@exchange.seeker_id)
 %p
   %b Seeker has accepted:
   = @exchange.s_accepted

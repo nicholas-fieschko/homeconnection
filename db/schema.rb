@@ -11,11 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503095834) do
+ActiveRecord::Schema.define(version: 20160505001630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "blacklistings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "blocked_user_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "blacklistings", ["user_id", "blocked_user_id"], name: "index_blacklistings_on_user_id_and_blocked_user_id", unique: true, using: :btree
 
   create_table "exchanges", force: :cascade do |t|
     t.integer  "provider_id",                 null: false
@@ -81,6 +90,12 @@ ActiveRecord::Schema.define(version: 20160503095834) do
   add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
   add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
 
+  create_table "privacy_profiles", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.text     "public_comments"
     t.text     "private_comments"
@@ -89,8 +104,10 @@ ActiveRecord::Schema.define(version: 20160503095834) do
     t.datetime "updated_at",       null: false
     t.integer  "user_id"
     t.integer  "author_id"
+    t.integer  "exchange_id"
   end
 
+  add_index "reviews", ["exchange_id", "author_id", "user_id"], name: "index_reviews_on_exchange_id_and_author_id_and_user_id", unique: true, using: :btree
   add_index "reviews", ["user_id"], name: "index_reviews_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
@@ -141,6 +158,17 @@ ActiveRecord::Schema.define(version: 20160503095834) do
     t.string    "city"
     t.string    "state"
     t.string    "country"
+    t.string    "tagline"
+    t.integer   "privacy_email"
+    t.integer   "privacy_location"
+    t.integer   "privacy_activity"
+    t.integer   "privacy_gender"
+    t.integer   "privacy_age"
+    t.integer   "privacy_about"
+    t.integer   "privacy_resources"
+    t.integer   "privacy_resources_info"
+    t.integer   "privacy_exchanges"
+    t.integer   "privacy_name"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -149,9 +177,13 @@ ActiveRecord::Schema.define(version: 20160503095834) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
+  add_foreign_key "blacklistings", "users"
+  add_foreign_key "blacklistings", "users", column: "blocked_user_id"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "privacy_profiles", "users"
+  add_foreign_key "reviews", "exchanges"
   add_foreign_key "reviews", "users"
   add_foreign_key "reviews", "users", column: "author_id"
 end

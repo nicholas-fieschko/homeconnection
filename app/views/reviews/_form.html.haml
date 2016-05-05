@@ -1,11 +1,23 @@
-= form_for [@user, @review] do |f|
-  .form-inputs
-    = f.label :public_comments
-    = f.text_field :public_comments
-    = f.label :private_comments
-    = f.text_field :private_comments
-    = f.label :rating
-    = f.number_field :rating, in: 1..5
-
+= form_for [@user, @review], html: { class: "pure-form pure-form-aligned" } do |f|
+  %fieldset
+    = f.hidden_field :user_id, value: other_user(Exchange.find params[:exchange_id]).id
+    = f.hidden_field :author_id, value: current_user.id
+    = f.hidden_field :exchange_id, value: params[:exchange_id]
+    .field
+      = f.label :public_comments
+      %br
+      %em These will be visible to anyone viewing #{other_user(Exchange.find params[:exchange_id]).name}'s page.
+      %br
+      = f.text_area :public_comments, size: '40x5'
+    .field
+      = f.label :private_comments
+      %br
+      %em These will only be visible to other #{current_user.provider? ? 'providers' : 'seekers'} who have completed at least one exchange.
+      %br
+      = f.text_area :private_comments, size: '40x5'
+    %br
+    .pure-control-group
+      = f.label "Overall rating of experience"
+      = f.number_field :rating, in: 1..5, placeholder: "1-5"
   .form-actions
-    = f.submit "Submit", class: "btn btn-success"
+    = f.submit "Submit", class: "btn btn-success cursive", id: "form-submit-button"

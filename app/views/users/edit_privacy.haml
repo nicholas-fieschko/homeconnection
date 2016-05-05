@@ -1,0 +1,47 @@
+.pure-g.grid-columns-container
+  .pure-u-1-8
+    %ul.pure-menu-list
+      %li.pure-menu-item 
+        = link_to "Login Settings", '/settings'
+      %li.pure-menu-item 
+        = link_to "General", '/profile/edit'
+      %li.pure-menu-item
+        = link_to "Resources", '/resource_profile/edit'
+      %li.pure-menu-item Privacy
+  .pure-u-3-4#signup-column
+    %h2.cursive#signup-title Privacy Settings
+    %br
+    = form_for(@user, as: :user, url: registration_path(:user), html: { method: :put, class: "pure-form pure-form-aligned"  }) do |f|
+      .pure-control-group
+        = f.label "Current Password"
+        = f.password_field :current_password, autocomplete: "off", placeholder: "(required to save any changes!)"
+      .pure-control-group
+        = f.label "Email"
+        = f.select :privacy_email,          options_for_select(privacy_options, current_user.privacy_email)
+      .pure-control-group
+        = f.label "Location"
+        = f.select :privacy_location,       options_for_select(privacy_options, current_user.privacy_location)
+      .pure-control-group
+        = f.label "Recent activity"
+        = f.select :privacy_activity,       options_for_select(privacy_options, current_user.privacy_activity)
+      .pure-control-group
+        = f.label "Gender"
+        = f.select :privacy_gender,         options_for_select(privacy_options, current_user.privacy_gender)
+      .pure-control-group
+        = f.label "Age"
+        = f.select :privacy_age,            options_for_select(privacy_options, current_user.privacy_age)
+      .pure-control-group
+        = f.label "Profile 'about'"
+        = f.select :privacy_about,          options_for_select(privacy_options, current_user.privacy_about)
+      .pure-control-group
+        = f.label "Resource #{current_user.provider? ? 'offers' : 'needs'}"
+        = f.select :privacy_resources,      options_for_select(privacy_options, current_user.privacy_resources)
+      .pure-control-group
+        = f.label "Resource #{current_user.provider? ? 'offer' : 'need'} descriptions"
+        = f.select :privacy_resources_info, options_for_select(privacy_options, current_user.privacy_resources_info)
+      .pure-control-group
+        = f.label "Number of exchanges"
+        = f.select :privacy_exchanges,      options_for_select(privacy_options, current_user.privacy_exchanges)
+      .actions
+        = f.submit "Update", class: "btn btn-success cursive", id: "form-submit-button"
+  .pure-u-1-8.side-columns

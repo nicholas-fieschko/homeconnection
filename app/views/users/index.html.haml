@@ -1,29 +1,59 @@
-Search form
-
-= form_tag users_path, method: :get do
-  Distance
-  = number_field_tag :distance, params[:distance]
-  = check_box_tag :food, 1, params[:food]
-  Food
-  = check_box_tag :shelter, 1, params[:shelter]
-  Housing
-  = check_box_tag :transport, 1, params[:transport]
-  Transport
-  = check_box_tag :shower, 1, params[:shower]
-  Shower
-  = check_box_tag :laundry, 1, params[:laundry]
-  Laundry
-  = check_box_tag :buddy, 1, params[:buddy]
-  Buddy
-  = check_box_tag :misc, 1, params[:misc]
-  Misc
-  = submit_tag "Search", name: nil
-
-- @users.each do |user|
-  %p
-    = link_to user.name, user
-    = "#{number_with_precision(current_user.distance_from(user), precision: 1)} miles away" unless current_user.distance_from(user).nil?
-    = " - #{location_string user}"
-    %br
-    = user.provider? ? "Provides: " : "Needs: "
-    = resources_string user
+.pure-g.grid-columns-container
+  .pure-u-1-8
+  .pure-u-3-8
+    %h3.cursive Search
+    = form_tag users_path, method: :get do
+      %ul
+        %li Find users who are:
+        %li 
+          within
+          = number_field_tag :distance, params[:distance]
+          miles
+        %li
+          = "and #{current_user.provider? ? 'are in need of' : 'are offering'} at least one of the following resources:"
+        %li
+          = check_box_tag :food, 1, params[:food]
+          Food
+        %li
+          = check_box_tag :shelter, 1, params[:shelter]
+          Shelter
+          %ul
+            %li 
+              = check_box_tag :shelter_accessible, 1, params[:shelter_accessible]
+              Disability accessible
+            %li
+              = check_box_tag :shelter_pets, 1, params[:shelter_pets]
+              Allow pets
+        %li
+          = check_box_tag :transport, 1, params[:transport]
+          Transport
+        %li
+          = check_box_tag :shower, 1, params[:shower]
+          Shower
+        %li
+          = check_box_tag :laundry, 1, params[:laundry]
+          Laundry
+        %li
+          = check_box_tag :buddy, 1, params[:buddy]
+          Buddy
+        %li
+          = check_box_tag :misc, 1, params[:misc]
+          Misc
+        %li
+          = submit_tag "Search", name: nil, class: "btn btn-success cursive"
+  .pure-u-1-2#local_results
+    = "Found #{@users.size} matching #{'user'.pluralize @users.size}."
+    - @users = @users.to_a.sort! { |l_user, r_user| current_user.distance_from(l_user) <=> current_user.distance_from(r_user) }
+    - @users.each do |user|
+      %p
+        = link_to user.name, user
+        %br
+        = "#{number_with_precision(current_user.distance_from(user), precision: 1)} miles away" unless current_user.distance_from(user).nil?
+        = " - #{location_string user}"
+        %br
+        = user.provider? ? "Provides: " : "Needs: "
+        = resources_string user
+        %br
+        - unless user.tagline.nil?
+          = truncate user.tagline, separator: ' ', length: 140 
+          = link_to " (read more)", user

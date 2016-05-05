@@ -1,10 +1,12 @@
 class ExchangesController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_exchange, only: [:show, :edit, :update, :destroy]
 
   # GET /exchanges
   # GET /exchanges.json
   def index
     @exchanges = current_user_exchanges
+    @complete, @pending = current_user_exchanges.to_a.partition { |exchange| exchange.complete? }
   end
 
   # GET /exchanges/1
@@ -26,7 +28,8 @@ class ExchangesController < ApplicationController
   def create
     @exchange = Exchange.new(exchange_params)
     if @exchange.save
-      redirect_to @exchange, notice: 'Offer was successfully sent.'
+      notify_other_user_of_offer @exchange
+      redirect_to '/dashboard', notice: "#{current_user.seeker? ? 'Request' : 'Offer' } was successfully sent."
     else
       render :new
     end
@@ -36,7 +39,8 @@ class ExchangesController < ApplicationController
   # PATCH/PUT /exchanges/1.json
   def update
     if @exchange.update(exchange_params)
-      redirect_to @exchange, notice: 'Exchange was successfully updated.' 
+      notify_other_user_of_update @exchange
+      redirect_to '/dashboard', notice: 'Success!' 
     else
       render :edit
     end
@@ -47,7 +51,7 @@ class ExchangesController < ApplicationController
   def destroy
     notify_other_user_of_cancellation @exchange
     @exchange.destroy
-    redirect_to exchanges_url, notice: 'Exchange was successfully cancelled.'
+    redirect_to '/dashboard', notice: 'Exchange was successfully cancelled.'
   end
 
   private
@@ -59,11 +63,26 @@ class ExchangesController < ApplicationController
       @exchange = Exchange.find(params[:id])
     end
 
-    def notify_other_user_of_cancellation(exchange)
+    def other_user(exchange)
       other_user = User.find(current_user.seeker? ? exchange.provider_id : exchange.seeker_id)
+    end
+
+    def notify_other_user_of_cancellation(exchange)
       title = "Exchange was cancelled"
-      body = "This is an automatically generated message letting you know that #{other_user.name} declined or cancelled your exchange."
-      current_user.send_message(other_user, body, title)
+      body = "This is an automatically generated message letting you know that #{current_user.name} declined or cancelled your exchange."
+      current_user.send_message(other_user(exchange), body, title)
+    end
+
+    def notify_other_user_of_offer(exchange)
+      title = "New #{current_user.seeker? ? 'Request' : 'Offer' }"
+      body = "This is an automatically generated message to let you know that #{current_user.name} has sent you a #{current_user.seeker? ? 'request' : 'offer' }. Please check your dashboard for more information."
+      current_user.send_message(other_user(exchange), body, title)
+    end
+
+    def notify_other_user_of_update(exchange)
+      title = "Update to exchange with #{current_user.name}"
+      body = "This is an automatically generated message to let you know that #{current_user.name} has updated the status of your mutual exchange. Please check your dashboard for more information."
+      current_user.send_message(other_user(exchange), body, title)
     end
 
     def exchange_params

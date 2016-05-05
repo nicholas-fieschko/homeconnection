@@ -3,7 +3,6 @@
     <div class="media">
       <div class="media-body">
         <h4 class="media-heading">
-          <%= message.sender.name %> <br>
           <small><b>To: </b>
           <% message.receipts.each do |receipt| %>
           <%= link_to User.find(receipt.receiver_id).name, User.find(receipt.receiver_id) unless receipt.receiver_id == current_user.id %> 

@@ -1,22 +1,48 @@
+- unless @exchange.new_record?
+  %ul
+    - if !(@exchange.s_accepted? && @exchange.p_accepted?)
+      - user_has_accepted       = current_user.seeker? ? @exchange.s_accepted? : @exchange.p_accepted?
+      - other_user_has_accepted = other_user.seeker?   ? @exchange.s_accepted? : @exchange.p_accepted?
+      %li 
+        = "You <b>#{user_has_accepted ? 'have' : 'have not'}</b> accepted this exchange.".html_safe
+      %li 
+        = "#{other_user.name} <b>#{other_user_has_accepted ? 'has' : 'has not'}</b> accepted this exchange.".html_safe
+    - else
+      - user_has_completed       = current_user.seeker? ? @exchange.s_finished? : @exchange.p_finished?
+      - other_user_has_completed = other_user.seeker?   ? @exchange.s_finished? : @exchange.p_finished?
+      %li 
+        = "You <b>#{user_has_completed ? 'have' : 'have not'}</b> confirmed this exchange has been completed.".html_safe
+      %li 
+        = "#{other_user.name} <b>#{other_user_has_completed ? 'has' : 'has not'}</b> confirmed this exchange has been completed.".html_safe
 - if action_available_to_current_user?
   = form_for @exchange do |f|
     .form-group
       - if @exchange.new_record?
-        = "Exchange with #{User.find(params[:target_user_id]).name}?"
+        %h4
+          = "Exchange with #{User.find(params[:target_user_id]).name}?"
         = f.hidden_field :provider_id, value: ids_of_exchange[:provider]
         = f.hidden_field :seeker_id,   value: ids_of_exchange[:seeker]
 
       = f.hidden_field user_next_step, value: true
 
     .form-actions
-      = f.submit action_text
-    - if user_considering_offer?
+      = f.submit action_text, class: "btn btn-success cursive", id: "form-submit-button"
+    -#if user_considering_offer?
       = link_to "Decline", @exchange, method: :delete
 - if !@exchange.complete?
   - if user_waiting_for_other_to_accept? || user_waiting_for_other_to_confirm_exchange_occurred?
     = "Waiting for #{other_user.name} to respond."
-  = link_to "Cancel exchange", @exchange, method: :delete, data: { confirm: 'Are you sure?' }
+    %br
+  %br
+  = link_to "#{user_considering_offer? ? 'Decline ' + (current_user.seeker? ? 'offer' : 'request') : 'Cancel exchange?'}", @exchange, method: :delete, data: user_considering_offer? ? {} : { confirm: 'Are you sure?' }, class: "btn btn-danger cursive", id: "form-submit-button" unless @exchange.new_record?
 - else # @exchange.complete?
-  Exchange complete. Please leave a review for 
-  = link_to other_user.name, user_path(other_user)
+  Exchange complete!
+  %br
+  - unless has_left_review? current_user, @exchange
+    Please
+    = link_to "leave a review", new_user_review_path(user_id: other_user.id, exchange_id: @exchange.id)
+    for 
+    = link_to "#{other_user.name}.", user_path(other_user)
+  - else
+    You have completed your review for #{other_user.name}.
   %br

@@ -1,0 +1,55 @@
+.pure-g.grid-columns-container
+  .pure-u-1-8
+    %ul.pure-menu-list
+      %li.pure-menu-item 
+        = link_to "Login Settings", '/settings'
+      %li.pure-menu-item 
+        = link_to "General", '/profile/edit'
+      %li.pure-menu-item Resources
+      %li.pure-menu-item 
+        = link_to "Privacy", '/privacy'
+  .pure-u-3-4#signup-column
+    %h2.cursive#signup-title Resource Profile
+    = form_for(@user, as: :user, url: registration_path(:user), html: { method: :put, class: "pure-form pure-form-aligned"  }) do |f|
+      .pure-control-group
+        = f.label "Current Password"
+        = f.password_field :current_password, autocomplete: "off", placeholder: "(required to save any changes!)"
+      %h4.cursive
+        = "I am #{current_user.provider? ? 'able to offer' : 'in need of'}...."
+      .pure-control-group
+        = f.label "Food"
+        = f.check_box :food
+        = f.text_area :food_info, placeholder: "(optional extra information)"
+      .pure-control-group
+        = f.label "Shelter"
+        = f.check_box :shelter
+        = f.text_area :shelter_info, placeholder: "(optional extra information)"
+      .pure-control-group
+        = "Disability-accessible shelter"
+        = f.check_box :shelter_accessible
+      .pure-control-group
+        = "Shelter which allows pets"
+        = f.check_box :shelter_pets
+      .pure-control-group
+        = f.label "Transportation"
+        = f.check_box :transport
+        = f.text_area :transport_info, placeholder: "(optional extra information)"
+      .pure-control-group
+        = f.label "Shower Access"
+        = f.check_box :shower
+        = f.text_area :shower_info, placeholder: "(optional extra information)"
+      .pure-control-group
+        = f.label :laundry
+        = f.check_box :laundry
+        = f.text_area :laundry_info, placeholder: "(optional extra information)"
+      .pure-control-group
+        = f.label "Mentoring or buddy-system support"
+        = f.check_box :buddy
+        = f.text_area :buddy_info, placeholder: "(optional extra information)"
+      .pure-control-group
+        = f.label "Other resources"
+        = f.check_box :misc
+        = f.text_area :misc_info, placeholder: "(please specify!)"
+      .actions
+        = f.submit "Update", class: "btn btn-success cursive", id: "form-submit-button"
+  .pure-u-1-8.side-columns

@@ -36,7 +36,8 @@ FactoryGirl.define do
     name              { Faker::Name.first_name }
     gender            { ["Male", "Female"].sample }
     birthday          { Faker::Date.between(10.years.ago, 100.years.ago).to_s } 
-    about             { Array.new(rand(1..4)) { Faker::StarWars.quote }.join(' ') }
+    about             { Faker::Lorem.paragraph }
+    tagline           { Faker::Lorem.sentence }
     provider          { [true, false].sample }
     zipcode           { Faker::Address.zip_code }
 

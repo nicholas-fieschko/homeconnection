@@ -26,7 +26,11 @@ class RegistrationsController < Devise::RegistrationsController
                                  :laundry,   :laundry_info, 
                                  :buddy,     :buddy_info, 
                                  :misc,      :misc_info,
-                                 :shelter_accessible, :shelter_pets)
+                                 :shelter_accessible, :shelter_pets,
+                                 :privacy_email, :privacy_location, :privacy_activity, 
+                                 :privacy_gender, :privacy_age, :privacy_about, 
+                                 :privacy_resources, :privacy_resources_info, 
+                                 :privacy_exchanges, :privacy_name )
   end
 
 end

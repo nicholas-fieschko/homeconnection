@@ -21,3 +21,9 @@
     %i.fa.fa-check-circle.fa-2x
     %span.notice-text
       = flash[:success]
+
+- if flash[:notice]
+  .pure-u-1.notice-success-container
+    %i.fa.fa-check-circle.fa-2x
+    %span.notice-text
+      = flash[:notice]

@@ -1,7 +1,9 @@
-%h1 Editing exchange
-
-= render 'form'
-
-= link_to 'Show', @exchange
-\|
-= link_to 'Back', exchanges_path
+.pure-g.grid-columns-container
+  .pure-u-1-8
+  .pure-u-3-4#signup-column
+    %h2.cursive#signup-title Exchange Status
+    = render 'form'
+    %br
+    %br
+    = link_to 'Back', exchanges_path, class: "btn btn-warning cursive"
+  .pure-u-1-8
